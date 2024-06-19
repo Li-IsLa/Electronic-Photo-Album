@@ -1,7 +1,5 @@
 package top.liisla.electronicphotoalbum.Rely;
 
-import org.junit.Test;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
