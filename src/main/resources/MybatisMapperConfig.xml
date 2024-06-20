@@ -20,7 +20,7 @@
     </environments>
 
     <mappers>
-<!--        <mapper class="xxxx" />-->
+        <mapper class="top.liisla.electronicphotoalbum.Mapper.JoinMapper" />
     </mappers>
 
 </configuration>
