@@ -1,11 +1,11 @@
 package top.liisla.electronicphotoalbum.Rely;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-@Service
+@Component
 public class GetSha256 {
     public String getSHA256Key(String input) {
         try {
