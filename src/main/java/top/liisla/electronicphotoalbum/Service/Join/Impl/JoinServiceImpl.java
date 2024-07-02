@@ -4,6 +4,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Service;
 import top.liisla.electronicphotoalbum.Dao.Join.JoinDao;
+import top.liisla.electronicphotoalbum.Entity.Contorller.Join.ForgetPasswordEntityController;
 import top.liisla.electronicphotoalbum.Entity.Contorller.Join.LoginEntityController;
 import top.liisla.electronicphotoalbum.Entity.Contorller.Join.RegisterEntityController;
 import top.liisla.electronicphotoalbum.Entity.Dao.Join.LoginEntityDaoInput;
@@ -11,6 +12,7 @@ import top.liisla.electronicphotoalbum.Entity.Dao.Join.LoginEntityDaoOutpt;
 import top.liisla.electronicphotoalbum.Entity.Dao.Join.RegisterEntityDao;
 import top.liisla.electronicphotoalbum.Entity.Return.CodeEntityReturn;
 import top.liisla.electronicphotoalbum.Rely.GetSha256;
+import top.liisla.electronicphotoalbum.Rely.GetTimeStamp;
 import top.liisla.electronicphotoalbum.Rely.GetUserLoginKey;
 import top.liisla.electronicphotoalbum.Rely.SetCookie;
 import top.liisla.electronicphotoalbum.Service.Join.JoinService;
@@ -22,12 +24,14 @@ public class JoinServiceImpl implements JoinService {
     private final GetSha256 getSha256;
     private final SetCookie setCookie;
     private final GetUserLoginKey getUserLoginKey;
+    private final GetTimeStamp getTimeStamp;
 
-    public JoinServiceImpl(JoinDao joinDao, GetSha256 getSha256, SetCookie setCookie, GetUserLoginKey getUserLoginKey) {
+    public JoinServiceImpl(JoinDao joinDao, GetSha256 getSha256, SetCookie setCookie, GetUserLoginKey getUserLoginKey, GetTimeStamp getTimeStamp) {
         this.joinDao = joinDao;
         this.getSha256 = getSha256;
         this.setCookie = setCookie;
         this.getUserLoginKey = getUserLoginKey;
+        this.getTimeStamp = getTimeStamp;
     }
 
 //    注册
@@ -38,7 +42,7 @@ public class JoinServiceImpl implements JoinService {
         CodeEntityReturn codeEntityReturn = new CodeEntityReturn();
 //        我们会验证注册使用的手机号和邮箱是否重复
         if (joinDao.registrationCheck(registerEntityDao) && joinDao.registrationInsert(registerEntityDao)) {
-            codeEntityReturn.setCode(201);
+            codeEntityReturn.setCode(200);
             codeEntityReturn.setMessage("注册成功请前往登录");
         } else {
             codeEntityReturn.setCode(400);
@@ -47,6 +51,7 @@ public class JoinServiceImpl implements JoinService {
         return codeEntityReturn;
     }
 
+//    登陆
     @Override
     public CodeEntityReturn login(LoginEntityController loginEntityController, HttpServletResponse response) {
 //        设置加密后的sha256
@@ -74,6 +79,37 @@ public class JoinServiceImpl implements JoinService {
         } else {
             codeEntityReturn.setCode(400);
             codeEntityReturn.setMessage("账号或密码错误");
+        }
+        return codeEntityReturn;
+    }
+
+//    忘记密码
+    @Override
+    public CodeEntityReturn ForgetPassword(ForgetPasswordEntityController forgetPasswordEntityController) {
+        forgetPasswordEntityController.setNewUserPassword(getSha256.getSHA256Key(forgetPasswordEntityController.getNewUserPassword()));
+        CodeEntityReturn codeEntityReturn = new CodeEntityReturn();
+        if (joinDao.inspectForGetInfo(forgetPasswordEntityController) && joinDao.updateUserPasswordForForgetPassword(forgetPasswordEntityController)) {
+            codeEntityReturn.setCode(200);
+            codeEntityReturn.setMessage("修改成功");
+        } else {
+            codeEntityReturn.setCode(400);
+            codeEntityReturn.setMessage("修改失败");
+        }
+        return codeEntityReturn;
+    }
+
+//    获取忘记密码验证码
+    @Override
+    public CodeEntityReturn GetForgetPasswordVerificationNumber(String newUserPassword, String userAccount) {
+        long timeStampOfUTC8 = getTimeStamp.getTimeStampOfUTC8() +  300000;
+        String sha256Key = getSha256.getSHA256Key(newUserPassword + timeStampOfUTC8).substring(0,8);
+        CodeEntityReturn codeEntityReturn = new CodeEntityReturn();
+        if (joinDao.addForgetPasswordKey(timeStampOfUTC8, sha256Key, userAccount)) {
+            codeEntityReturn.setCode(200);
+            codeEntityReturn.setMessage(sha256Key);
+        } else {
+            codeEntityReturn.setCode(400);
+            codeEntityReturn.setMessage("获取失败");
         }
         return codeEntityReturn;
     }
