@@ -9,7 +9,7 @@ public class CORS implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOriginPatterns("http://web.li-isla.net", "https://li-isla.top")
+                .allowedOriginPatterns("http://web.li-isla.net:*", "https://li-isla.top")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .exposedHeaders("Set-Cookie")

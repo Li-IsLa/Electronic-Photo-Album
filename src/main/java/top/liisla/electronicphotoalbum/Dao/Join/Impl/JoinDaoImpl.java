@@ -1,7 +1,7 @@
 package top.liisla.electronicphotoalbum.Dao.Join.Impl;
 
 import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 import top.liisla.electronicphotoalbum.Dao.Join.JoinDao;
 import top.liisla.electronicphotoalbum.Entity.Contorller.Join.ForgetPasswordEntityController;
 import top.liisla.electronicphotoalbum.Entity.Dao.Join.ForgetPasswordEntityDaoOutput;
@@ -11,7 +11,7 @@ import top.liisla.electronicphotoalbum.Entity.Dao.Join.RegisterEntityDao;
 import top.liisla.electronicphotoalbum.Mapper.JoinMapper;
 import top.liisla.electronicphotoalbum.Rely.GetTimeStamp;
 
-@Service
+@Repository
 public class JoinDaoImpl implements JoinDao {
 
 //    注入SqlSessionTemplate
@@ -28,7 +28,7 @@ public class JoinDaoImpl implements JoinDao {
         JoinMapper mapper = sqlSessionTemplate.getMapper(JoinMapper.class);
         int emailCount = mapper.countEmailNumberOfJoin(registerEntityDao.getUserEmail());
         int phoneNumberCount = mapper.countPhoneNumberOfJoin(registerEntityDao.getUserPhoneNumber());
-        return emailCount == 0 &&  phoneNumberCount == 0;
+        return emailCount == 0 && phoneNumberCount == 0;
     }
 
 //    注册添加

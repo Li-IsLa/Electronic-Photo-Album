@@ -72,8 +72,10 @@ public class JoinServiceImpl implements JoinService {
             }
             Cookie userKeyCookie = setCookie.createCookie("userKey", userKey , "app.li-isla.net", "/", loginEntityController.getLoginTime(), true);
             Cookie userNameCookie = setCookie.createCookie("userName", userInfo.getUserName(), "app.li-isla.net", "/", loginEntityController.getLoginTime(), true);
+            Cookie userIDCookie = setCookie.createCookie("userID", Integer.toString(userInfo.getUserID()), "app.li-isla.net", "/", loginEntityController.getLoginTime(), true);
             response.addCookie(userKeyCookie);
             response.addCookie(userNameCookie);
+            response.addCookie(userIDCookie);
             codeEntityReturn.setCode(200);
             codeEntityReturn.setMessage("登录成功");
         } else {

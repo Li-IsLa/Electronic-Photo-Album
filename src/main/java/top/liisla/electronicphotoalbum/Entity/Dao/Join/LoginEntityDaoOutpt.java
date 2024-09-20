@@ -6,4 +6,5 @@ import lombok.Data;
 public class LoginEntityDaoOutpt {
     private String userName;
     private String userPassword;
+    private int userID;
 }

@@ -26,7 +26,7 @@ public interface JoinMapper {
     int insertOfRegister(RegisterEntityDao registerEntityDao);
 
     //    登录查询
-    @Select("SELECT userPassword,userName FROM userinfo WHERE userEmail = #{userAccount} OR userPhoneNumber = #{userAccount}")
+    @Select("SELECT userPassword,userName,userID FROM userinfo WHERE userEmail = #{userAccount} OR userPhoneNumber = #{userAccount}")
     LoginEntityDaoOutpt account(LoginEntityDaoInput loginEntityDaoInput);
 
     //    添加userKey
