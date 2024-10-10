@@ -29,12 +29,17 @@ public class UserLoginAspect {
         HttpServletRequest request;
         if (attributes != null) {
             request = attributes.getRequest();
-            CheckUserLoginEntityAspect checkUserLoginEntityAspect = getCheckUserLoginEntityAspect(request);
+            CheckUserLoginEntityAspect checkUserLoginEntityAspect;
+            try {
+                checkUserLoginEntityAspect = getCheckUserLoginEntityAspect(request);
+            } catch (Exception e) {
+                throw new UnauthorizedException("未登录或登录无效" + e);
+            }
             if (checkUserLoginEntityAspect.getUserID() != null && !aspectDao.checkUserLoginKey(checkUserLoginEntityAspect)) {
                 throw new UnauthorizedException("未登录或登录无效");
             }
         }
-        throw new UnauthorizedException("未登录或登录无效");
+//        throw new UnauthorizedException("未登录或登录无效");
     }
 
     private static CheckUserLoginEntityAspect getCheckUserLoginEntityAspect(HttpServletRequest request) {
