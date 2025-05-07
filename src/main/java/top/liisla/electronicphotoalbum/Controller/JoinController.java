@@ -20,25 +20,25 @@ public class JoinController {
     }
 
     //    注册接口
-    @PostMapping("/register")
-    public CodeEntityReturn register(RegisterEntityController registerEntityController) {
+    @PostMapping("/api/register")
+    public CodeEntityReturn register(@RequestBody RegisterEntityController registerEntityController) {
         return joinService.register(registerEntityController);
     }
 
 //    登录接口
-    @PostMapping("/login")
+    @PostMapping("/api/login")
     public CodeEntityReturn Login(@RequestBody LoginEntityController loginEntityController, HttpServletResponse response) {
         return joinService.login(loginEntityController, response);
     }
 
 //    忘记密码接口
-    @PostMapping("/forgetPassword")
-    public CodeEntityReturn forgetPassword(ForgetPasswordEntityController forgetPasswordEntityController) {
+    @PostMapping("/api/forgetPassword")
+    public CodeEntityReturn forgetPassword(@RequestBody ForgetPasswordEntityController forgetPasswordEntityController) {
         return joinService.ForgetPassword(forgetPasswordEntityController);
     }
 
 //    获取修改密码时的验证码,这只是一个Demo作为测试使用
-    @PostMapping("/getForgetPasswordVerificationNumber")
+    @PostMapping("/api/getForgetPasswordVerificationNumber")
     public CodeEntityReturn getForgetPasswordVerificationNumber(String newUserPassword, String userAccount) {
         return joinService.GetForgetPasswordVerificationNumber(newUserPassword,userAccount);
     }

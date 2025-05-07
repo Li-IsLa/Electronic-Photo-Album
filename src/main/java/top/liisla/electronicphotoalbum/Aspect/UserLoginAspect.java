@@ -33,7 +33,7 @@ public class UserLoginAspect {
             try {
                 checkUserLoginEntityAspect = getCheckUserLoginEntityAspect(request);
             } catch (Exception e) {
-                throw new UnauthorizedException("未登录或登录无效" + e);
+                throw new UnauthorizedException("未登录或登录无效");
             }
             if (checkUserLoginEntityAspect.getUserID() != null && !aspectDao.checkUserLoginKey(checkUserLoginEntityAspect)) {
                 throw new UnauthorizedException("未登录或登录无效");

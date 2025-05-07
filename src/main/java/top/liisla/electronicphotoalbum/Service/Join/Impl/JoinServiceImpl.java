@@ -66,13 +66,14 @@ public class JoinServiceImpl implements JoinService {
 //            获取用户登录key
             String userKey = getUserLoginKey.getUserKey(loginEntityController.getUserAccount());
 //            将用户的userKey保存到数据库
-            if (joinDao.addUserKey(loginEntityDaoInput, userKey)) {
+            if (!joinDao.addUserKey(loginEntityDaoInput, userKey)) {
                 codeEntityReturn.setCode(400);
                 codeEntityReturn.setMessage("登录失败请稍后再尝试");
+                return codeEntityReturn;
             }
-            Cookie userKeyCookie = setCookie.createCookie("userKey", userKey , "web.li-isla.net", "/", loginEntityController.getLoginTime(), true);
-            Cookie userNameCookie = setCookie.createCookie("userName", userInfo.getUserName(), "web.li-isla.net", "/", loginEntityController.getLoginTime(), true);
-            Cookie userIDCookie = setCookie.createCookie("userID", Integer.toString(userInfo.getUserID()), "web.li-isla.net", "/", loginEntityController.getLoginTime(), true);
+            Cookie userKeyCookie = setCookie.createCookie("userKey", userKey , "web.li-isla.net", "/", loginEntityController.getLoginTime() * 604800 - 1, true);
+            Cookie userNameCookie = setCookie.createCookie("userName", userInfo.getUserName(), "web.li-isla.net", "/", loginEntityController.getLoginTime() * 604800 - 1, true);
+            Cookie userIDCookie = setCookie.createCookie("userID", Integer.toString(userInfo.getUserID()), "web.li-isla.net", "/", loginEntityController.getLoginTime() * 604800 - 1, true);
             response.addCookie(userKeyCookie);
             response.addCookie(userNameCookie);
             response.addCookie(userIDCookie);

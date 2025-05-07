@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import top.liisla.electronicphotoalbum.Dao.File.FileDao;
 import top.liisla.electronicphotoalbum.Entity.Contorller.File.UploadImgFileEntityController;
 import top.liisla.electronicphotoalbum.Entity.Return.CodeEntityReturn;
+import top.liisla.electronicphotoalbum.Entity.Return.file.QueryImgToUserIDEntityReturn;
 import top.liisla.electronicphotoalbum.Rely.GetCookieValue;
 import top.liisla.electronicphotoalbum.Rely.GetTimeStamp;
 import top.liisla.electronicphotoalbum.Rely.SaveFile;
@@ -45,7 +46,7 @@ public class FileServiceImpl implements FileService {
         HashMap<String, String> cookieValueMap = getCookieValue.getCookieValueByCookieName(request, cookieName);
 //        文件保存成功,我们开始生成URL和存储数据库
 //        获取URL
-        String URL = "/img/" + timeStampOfUTC8 + saveFile.getFileSuffix(file);
+        String URL = "/upFileImg/" + timeStampOfUTC8 + saveFile.getFileSuffix(file);
 //        存储数据库
         if (fileDao.storageImgInfo(URL, cookieValueMap, uploadImgFileEntityController)) {
             codeEntityReturn.setCode(200);
@@ -55,5 +56,18 @@ public class FileServiceImpl implements FileService {
             codeEntityReturn.setMessage("失败");
         }
         return codeEntityReturn;
+    }
+
+    @Override
+    public QueryImgToUserIDEntityReturn queryImgToUserID(HttpServletRequest request) {
+        ArrayList<String> getUserIDInCookieArrayList = new ArrayList<>() {{
+            add("userID");
+            add("userName");
+        }};
+        HashMap<String, String> cookieValueMap = getCookieValue.getCookieValueByCookieName(request, getUserIDInCookieArrayList);
+        return QueryImgToUserIDEntityReturn.builder()
+                .userID(cookieValueMap.get("userID"))
+                .userName(cookieValueMap.get("userName"))
+                .build();
     }
 }

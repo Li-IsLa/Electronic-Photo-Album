@@ -10,4 +10,5 @@ public class RegisterEntityController {
     private String userEmail;
     private String userGender;
     private String userPersonalSignature;
+    private int userPower;
 }

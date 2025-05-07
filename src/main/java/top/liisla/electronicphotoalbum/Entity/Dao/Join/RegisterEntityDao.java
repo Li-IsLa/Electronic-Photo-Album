@@ -11,6 +11,7 @@ public class RegisterEntityDao {
     private String userEmail;
     private String userGender;
     private String userPersonalSignature;
+    private int userPower;
 
     public RegisterEntityDao(RegisterEntityController registerEntityController) {
         this.userName = registerEntityController.getUserName();
@@ -19,5 +20,6 @@ public class RegisterEntityDao {
         this.userEmail = registerEntityController.getUserEmail();
         this.userGender = registerEntityController.getUserGender();
         this.userPersonalSignature = registerEntityController.getUserPersonalSignature();
+        this.userPower = registerEntityController.getUserPower();
     }
 }

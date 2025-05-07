@@ -9,7 +9,7 @@ import java.util.Objects;
 
 @Component
 public class SaveFile {
-    private static final String UPLOAD_DIR = "C:\\Users\\Li-Dan\\Desktop\\Electronic-Photo-Album\\Img";
+    private static final String UPLOAD_DIR = "D:\\nginx-1.27.4\\nginx-1.27.4\\html\\web-Electronic-Photo-Album\\upFileImg";
     public boolean saveFileToLocal(MultipartFile file, String newFileName) {
         try {
             // 创建目标目录（如果不存在）

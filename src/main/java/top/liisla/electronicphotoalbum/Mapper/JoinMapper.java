@@ -22,7 +22,7 @@ public interface JoinMapper {
     int countEmailNumberOfJoin(String userEmail);
 
     //    向数据库添加注册信息
-    @Insert("insert into userinfo (userName, userPassword, userPhoneNumber, userEmail, userGender, userPersonalSignature) values (#{userName}, #{userPassword}, #{userPhoneNumber}, #{userEmail}, #{userGender}, #{userPersonalSignature})")
+    @Insert("insert into userinfo (userName, userPassword, userPhoneNumber, userEmail, userGender, userPersonalSignature, userPower) values (#{userName}, #{userPassword}, #{userPhoneNumber}, #{userEmail}, #{userGender}, #{userPersonalSignature}, #{userPower})")
     int insertOfRegister(RegisterEntityDao registerEntityDao);
 
     //    登录查询
