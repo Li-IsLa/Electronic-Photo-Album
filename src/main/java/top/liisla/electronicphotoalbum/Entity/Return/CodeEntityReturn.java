@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class CodeEntityReturn {
-    private int Code;
-    private String Message;
+    private int code;
+    private String message;
 }

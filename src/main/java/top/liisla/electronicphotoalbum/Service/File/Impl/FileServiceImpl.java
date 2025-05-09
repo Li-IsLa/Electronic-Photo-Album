@@ -13,6 +13,7 @@ import top.liisla.electronicphotoalbum.Rely.SaveFile;
 import top.liisla.electronicphotoalbum.Service.File.FileService;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @Service
 public class FileServiceImpl implements FileService {
@@ -34,7 +35,7 @@ public class FileServiceImpl implements FileService {
                                           UploadImgFileEntityController uploadImgFileEntityController) {
         CodeEntityReturn codeEntityReturn = new CodeEntityReturn();
         Long timeStampOfUTC8 = getTimeStamp.getTimeStampOfUTC8();
-        if (!saveFile.saveFileToLocal(file, timeStampOfUTC8 + "")) {
+        if (!saveFile.saveFileToLocal(file, timeStampOfUTC8.toString())) {
             codeEntityReturn.setCode(400);
             codeEntityReturn.setMessage("上传失败请稍后再试,这是服务器错误不是你的问题");
             return codeEntityReturn;
@@ -60,14 +61,25 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public QueryImgToUserIDEntityReturn queryImgToUserID(HttpServletRequest request) {
-        ArrayList<String> getUserIDInCookieArrayList = new ArrayList<>() {{
+        List<String> getUserIDInCookieArrayList = new ArrayList<>() {{
             add("userID");
             add("userName");
         }};
         HashMap<String, String> cookieValueMap = getCookieValue.getCookieValueByCookieName(request, getUserIDInCookieArrayList);
+        ArrayList<QueryImgToUserIDEntityReturn.ImgInfoListEntity> imgInfoListEntities = fileDao.queryImgToUserIDOfMapper(cookieValueMap.get("userID"));
+        if (imgInfoListEntities == null) {
+            return QueryImgToUserIDEntityReturn.builder()
+                    .code(204)
+                    .message("暂时没有图片")
+                    .build();
+        }
         return QueryImgToUserIDEntityReturn.builder()
                 .userID(cookieValueMap.get("userID"))
                 .userName(cookieValueMap.get("userName"))
+                .queryTime(getTimeStamp.getTimeStampOfUTC8().toString())
+                .imgInfoList(imgInfoListEntities)
+                .code(200)
+                .message("查询到一下图片")
                 .build();
     }
 }

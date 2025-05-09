@@ -17,6 +17,6 @@ public interface FileMapper {
     int storageImgInfo(String URL, HashMap<String, String> cookieValueMap, UploadImgFileEntityController uploadImgFileEntityController);
 
 //    根据userID查询图片
-    @Select("SELECT * from imginfo where (userID = #{userID})")
+    @Select("SELECT imgID, imgName, imgTitle, imgURL, userID, imgTime  from imginfo where (userID = #{userID})")
     ArrayList<QueryImgToUserIDEntityReturn.ImgInfoListEntity> queryImgToUserIDOfMapper(String userID);
 }

@@ -12,10 +12,11 @@ public class QueryImgToUserIDEntityReturn {
     private String userName;
     private String userID;
     private String queryTime;
-    private int Code;
+    private int code;
+    private String message;
     private ArrayList<ImgInfoListEntity> imgInfoList;
 
-
+    @Data
     public static class ImgInfoListEntity {
         private int imgID;
         private String imgName;

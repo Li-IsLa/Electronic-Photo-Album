@@ -26,6 +26,8 @@ public class FileDaoImpl implements FileDao {
 
     @Override
     public ArrayList<QueryImgToUserIDEntityReturn.ImgInfoListEntity> queryImgToUserIDOfMapper(String userID) {
-        return sqlSessionTemplate.getMapper(FileMapper.class).queryImgToUserIDOfMapper(userID);
+        ArrayList<QueryImgToUserIDEntityReturn.ImgInfoListEntity> imgInfoListEntities = sqlSessionTemplate.getMapper(FileMapper.class).queryImgToUserIDOfMapper(userID);
+        if (imgInfoListEntities.isEmpty()) return null;
+        return imgInfoListEntities;
     }
 }
