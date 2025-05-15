@@ -32,11 +32,11 @@ public class UserLoginAspect {
             CheckUserLoginEntityAspect checkUserLoginEntityAspect;
             try {
                 checkUserLoginEntityAspect = getCheckUserLoginEntityAspect(request);
-            } catch (Exception e) {
-                throw new UnauthorizedException("未登录或登录无效");
+            } catch (UnauthorizedException e) {
+                throw new UnauthorizedException("401 No permission");
             }
             if (checkUserLoginEntityAspect.getUserID() != null && !aspectDao.checkUserLoginKey(checkUserLoginEntityAspect)) {
-                throw new UnauthorizedException("未登录或登录无效");
+                throw new UnauthorizedException("401 No permission");
             }
         }
 //        throw new UnauthorizedException("未登录或登录无效");

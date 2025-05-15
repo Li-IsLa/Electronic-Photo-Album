@@ -24,5 +24,6 @@ public class QueryImgToUserIDEntityReturn {
         private String imgURL;
         private String userID;
         private String imgTime;
+        private String imgUserLike;
     }
 }

@@ -1,18 +1,25 @@
 package top.liisla.electronicphotoalbum;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import top.liisla.electronicphotoalbum.Rely.GetTimeStamp;
-
-import java.util.Set;
+import top.liisla.electronicphotoalbum.Dao.File.FileDao;
+import top.liisla.electronicphotoalbum.Entity.Return.file.QueryImgToImgIDEntityReturn;
 
 @SpringBootTest
 class ElectronicPhotoAlbumApplicationTests {
 
-    @Test
-    void contextLoads() {
 
+    private FileDao fileDao;
+
+    @Autowired  // 使用setter注入
+    public void setFileDao(FileDao fileDao) {
+        this.fileDao = fileDao;
     }
 
-
+    @Test
+    void contextLoads() {
+        QueryImgToImgIDEntityReturn imgToImgID = fileDao.getImgToImgID("2");
+        System.out.println(imgToImgID);
+    }
 }
